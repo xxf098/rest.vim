@@ -1,0 +1,31 @@
+HOST=http://127.0.0.1:8080
+TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+Accept: application/json, text/javascript, */*; q=0.01
+Content-Type: application/json; charset=UTF-8
+Accept-Language: en-US,en;q=0.9
+authorization: Bearer {{ TOKEN }}
+Connection: keep-alive
+###  2019-04-24T03:08:54 200 1
+POST
+{{ HOST }}/v1/login
+{"username":"test","password":"123456"}
+###  2019-04-24T03:09:53 200 20
+GET
+{{ HOST }}/v1/api/user/123456
+###  2019-03-27T22:31:02 unknown 34
+POST
+{{ HOST }}/v1/api/save
+Content-Type: multipart/form-data; charset=UTF-8
+FilePath excelFile=@~/Downloads/1111.xlsx
+--- FilePath excelFile=@~/Downloads/1111.xlsx
+###  2019-04-14T04:06:18 200 5
+GET
+{{ HOST }}/v1/api/messages?page=1&limit=20
+###  2019-04-08T23:14:44 200 19
+PUT
+{{ HOST }}/v1/api/user/123456
+{"age":22}
+###  2019-04-08T22:56:36 unknown 218
+DELETE
+{{ HOST }}/v1/api/user/123456
+###
