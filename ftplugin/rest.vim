@@ -19,19 +19,23 @@ function! g:InsertRestSnippets(type)
   execute "normal! jj$"
 endfunction
 
-function! g:FastJumpToRestBlock(direction)
-  let flags = 'c'
-  if a:direction == 'previous'
-    let flags = 'b'
-    let previousLine = getline(line('.') - 1)
-    if previousLine =~ '^\(GET\|PUT\|POST\|DELETE\)$'
-      execute "normal! k"
+function! g:FastJumpToRestBlock(direction, count)
+  let idx = 0
+  while idx < a:count
+    let flags = 'c'
+    if a:direction == 'previous'
+      let flags = 'b'
+      let previousLine = getline(line('.') - 1)
+      if previousLine =~ '^\(GET\|PUT\|POST\|DELETE\)$'
+        execute "normal! k"
+      endif
     endif
-  endif
-  let lineNum = search('^\(GET\|PUT\|POST\|DELETE\)$', flags)
-  if lineNum
-    execute "normal! j"
-  endif
+    let lineNum = search('^\(GET\|PUT\|POST\|DELETE\)$', flags)
+    if lineNum
+      execute "normal! j"
+    endif
+    let idx += 1
+  endwhile
 endfunction
 
 nnoremap <buffer><silent> get :call g:InsertRestSnippets('GET')<cr>
@@ -39,5 +43,5 @@ nnoremap <buffer><silent> post :call g:InsertRestSnippets('POST')<cr>
 nnoremap <buffer><silent> put :call g:InsertRestSnippets('PUT')<cr>
 nnoremap <buffer><silent> del :call g:InsertRestSnippets('DELETE')<cr>
 nnoremap <buffer><silent> file :call g:InsertRestSnippets('FilePath')<cr>
-nnoremap <buffer><silent> <C-n> :call g:FastJumpToRestBlock('next')<cr>
-nnoremap <buffer><silent> <C-p> :call g:FastJumpToRestBlock('previous')<cr>
+nnoremap <buffer><silent> n :<C-U>call g:FastJumpToRestBlock('next', v:count1)<cr>
+nnoremap <buffer><silent> N :<C-U>call g:FastJumpToRestBlock('previous', v:count1)<cr>
