@@ -38,6 +38,18 @@ function! g:FastJumpToRestBlock(direction, count)
   endwhile
 endfunction
 
+function! g:DeleteRestBlock()
+  let up_num = search('^###', 'bcn')
+  let down_num = search('^###', 'cn')
+  if up_num == 0 || down_num == 0 || down_num < up_num
+    return
+  endif
+  if up_num == down_num
+    let down_num = search('^###', 'n')
+  endif
+  execute  up_num . ',' . (down_num - 1) . 'd'
+endfunction
+
 nnoremap <buffer><silent> get :call g:InsertRestSnippets('GET')<cr>
 nnoremap <buffer><silent> post :call g:InsertRestSnippets('POST')<cr>
 nnoremap <buffer><silent> put :call g:InsertRestSnippets('PUT')<cr>
@@ -45,3 +57,4 @@ nnoremap <buffer><silent> del :call g:InsertRestSnippets('DELETE')<cr>
 nnoremap <buffer><silent> file :call g:InsertRestSnippets('FilePath')<cr>
 nnoremap <buffer><silent> <c-j> :<C-U>call g:FastJumpToRestBlock('next', v:count1)<cr>
 nnoremap <buffer><silent> <c-k> :<C-U>call g:FastJumpToRestBlock('previous', v:count1)<cr>
+nnoremap <buffer><silent> <c-d> :call g:DeleteRestBlock()<cr>
