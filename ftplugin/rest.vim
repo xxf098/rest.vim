@@ -43,5 +43,5 @@ nnoremap <buffer><silent> post :call g:InsertRestSnippets('POST')<cr>
 nnoremap <buffer><silent> put :call g:InsertRestSnippets('PUT')<cr>
 nnoremap <buffer><silent> del :call g:InsertRestSnippets('DELETE')<cr>
 nnoremap <buffer><silent> file :call g:InsertRestSnippets('FilePath')<cr>
-nnoremap <buffer><silent> n :<C-U>call g:FastJumpToRestBlock('next', v:count1)<cr>
-nnoremap <buffer><silent> N :<C-U>call g:FastJumpToRestBlock('previous', v:count1)<cr>
+nnoremap <buffer><silent> <c-j> :<C-U>call g:FastJumpToRestBlock('next', v:count1)<cr>
+nnoremap <buffer><silent> <c-k> :<C-U>call g:FastJumpToRestBlock('previous', v:count1)<cr>
