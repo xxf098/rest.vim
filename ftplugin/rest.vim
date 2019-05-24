@@ -38,7 +38,8 @@ function! g:FastJumpToRestBlock(direction, count)
   endwhile
 endfunction
 
-function! g:DeleteRestBlock()
+"support dir yir
+function! s:SelectRestBlock(inner, visual)
   let up_num = search('^###', 'bcn')
   let down_num = search('^###', 'cn')
   if up_num == 0 || down_num == 0 || down_num < up_num
@@ -47,7 +48,9 @@ function! g:DeleteRestBlock()
   if up_num == down_num
     let down_num = search('^###', 'n')
   endif
-  execute  up_num . ',' . (down_num - 1) . 'd'
+  " execute  up_num . ',' . (down_num - 1) . 'd'
+  execute 'normal! ' . up_num . 'ggV'
+  execute 'normal! ' . (down_num - up_num -1) . 'j'
 endfunction
 
 nnoremap <buffer><silent> get :call g:InsertRestSnippets('GET')<cr>
@@ -57,4 +60,8 @@ nnoremap <buffer><silent> del :call g:InsertRestSnippets('DELETE')<cr>
 nnoremap <buffer><silent> file :call g:InsertRestSnippets('FilePath')<cr>
 nnoremap <buffer><silent> <c-j> :<C-U>call g:FastJumpToRestBlock('next', v:count1)<cr>
 nnoremap <buffer><silent> <c-k> :<C-U>call g:FastJumpToRestBlock('previous', v:count1)<cr>
-nnoremap <buffer><silent> <c-d> :call g:DeleteRestBlock()<cr>
+" nnoremap <buffer><silent> <c-d> :call g:SelectRestBlock()<cr>
+vnoremap <silent> ir <ESC>:call <SID>SelectRestBlock(1, 1)<CR>
+vnoremap <silent> ar <ESC>:call <SID>SelectRestBlock(0, 1)<CR>
+onoremap <silent> ir :call <SID>SelectRestBlock(1, 0)<CR>
+onoremap <silent> ar :call <SID>SelectRestBlock(0, 0)<CR>
